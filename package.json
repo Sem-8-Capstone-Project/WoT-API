@@ -4,7 +4,8 @@
   "description": "Web Of Things API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   "homepage": "https://github.com/Sem-8-Capstone-Project/WoT-API#readme",
   "dependencies": {
     "@node-wot/binding-http": "^0.8.12",
-    "@node-wot/core": "^0.8.12"
+    "@node-wot/core": "^0.8.12",
+    "cors": "^2.8.5",
+    "johnny-five": "^2.1.0"
   }
 }

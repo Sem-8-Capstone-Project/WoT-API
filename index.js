@@ -1,6 +1,6 @@
 const { Servient } = require("@node-wot/core");
 const { HttpServer } = require("@node-wot/binding-http");
-const LedController = require("../Serial-Interface/LedController")
+const LedController = require("./SerialInterface/LedController")
 
 
 const servient = new Servient();
