@@ -1,10 +1,12 @@
 const { Servient } = require("@node-wot/core");
 const { HttpServer } = require("@node-wot/binding-http");
 const LedController = require("./SerialInterface/LedController")
-
+const cors = require('cors')
 
 const servient = new Servient();
-servient.addServer(new HttpServer());
+servient.addServer(new HttpServer({
+	middleware: cors()
+}));
 
 const ledController = new LedController()
 ledController.initializeLed(3).then(() => console.log("Led 1 intialized"))
@@ -50,5 +52,4 @@ servient.start().then(async (WoT) => {
 	exposingThing.setActionHandler("led2_off", () => { ledController.turnOff(5); });
 
 	await exposingThing.expose();
-	// now you can interact with the thing via http://localhost:8080/counter
 });
