@@ -1,4 +1,7 @@
-const { Board, Led, Light } = require("johnny-five");
+const five = require("johnny-five");
+const { Board, Led, Light } = five;
+const Oled = require('oled-js');
+const font = require('oled-font-5x7');
 
 class LedController {
 	constructor() {
@@ -73,4 +76,62 @@ class LedController {
 	}
 }
 
-module.exports = LedController;
+class OledController {
+	constructor() {
+		this.board = new Board(); // Reuse the same board instance
+		this.isBoardReady = false;
+		this.oled = null;
+	}
+
+	async initialize() {
+		if (!this.isBoardReady) {
+			await new Promise((resolve) => {
+				this.board.on("ready", () => {
+					this.isBoardReady = true;
+					resolve();
+				});
+			});
+		}
+
+		const opts = {
+			width: 128,
+			height: 64,
+			address: 0x3C, // Replace with your OLED address
+		};
+
+		this.oled = new Oled(this.board, five, opts);
+	}
+
+	async turnOnDisplay() {
+		if (!this.oled) {
+			await this.initialize();
+		}
+		this.oled.turnOnDisplay();
+	}
+
+	async turnOffDisplay() {
+		if (!this.oled) {
+			await this.initialize();
+		}
+		this.oled.turnOffDisplay();
+	}
+
+	async clearDisplay() {
+		if (!this.oled) {
+			await this.initialize();
+		}
+		this.oled.clearDisplay();
+		this.oled.update();
+	}
+
+	async drawString(x, y, string) {
+		if (!this.oled) {
+			await this.initialize();
+		}
+		this.oled.setCursor(x, y);
+		// this.oled.writeString(font, string, );
+		this.oled.writeString(font, 2, string, 1, true, 4);
+	}
+}
+
+module.exports = { LedController, OledController };

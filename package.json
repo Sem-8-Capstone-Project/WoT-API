@@ -21,6 +21,8 @@
     "@node-wot/binding-http": "^0.8.12",
     "@node-wot/core": "^0.8.12",
     "cors": "^2.8.5",
-    "johnny-five": "^2.1.0"
+    "johnny-five": "^2.1.0",
+    "oled-font-5x7": "^1.0.3",
+    "oled-js": "^5.1.2"
   }
 }
