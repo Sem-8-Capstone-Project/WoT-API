@@ -106,21 +106,21 @@ class LedController {
 
 	async turnOnDisplay() {
 		if (!this.oled) {
-			await this.initialize();
+			await this.initializeOLED();
 		}
 		this.oled.turnOnDisplay();
 	}
 
 	async turnOffDisplay() {
 		if (!this.oled) {
-			await this.initialize();
+			await this.initializeOLED();
 		}
 		this.oled.turnOffDisplay();
 	}
 
 	async clearDisplay() {
 		if (!this.oled) {
-			await this.initialize();
+			await this.initializeOLED();
 		}
 		this.oled.clearDisplay();
 		this.oled.update();
@@ -128,7 +128,7 @@ class LedController {
 
 	async drawString(x, y, string) {
 		if (!this.oled) {
-			await this.initialize();
+			await this.initializeOLED();
 		}
 		this.oled.setCursor(x, y);
 		this.oled.writeString(font, 2, string, 1, true, 4);
