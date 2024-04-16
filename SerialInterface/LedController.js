@@ -63,6 +63,15 @@ class LedController {
 		console.log(`LED on pin ${pinNumber} turned off`);
 	}
 
+	setIntensity(pinNumber, intensity) {
+		const led = this.leds.get(pinNumber);
+		if (!led) {
+			throw new Error(`LED on pin ${pinNumber} is not initialized. Call initializeLed method first.`);
+		}
+		led.brightness(intensity);
+		console.log(`LED on pin ${pinNumber} set to intensity ${intensity}`);
+	}
+
 	readLDR() {
 		if (!this.ldrSensor) {
 			throw new Error("LDR sensor is not initialized. Call initializeLDR method first.");
