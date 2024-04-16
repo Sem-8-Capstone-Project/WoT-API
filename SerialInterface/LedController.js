@@ -9,6 +9,7 @@ class LedController {
 		this.isBoardReady = false;
 		this.leds = new Map(); // Map to store LED instances
 		this.ldrSensor = null; // Reference to the LDR Sensor instance
+		this.oled = null;
 	}
 
 	async initializeLed(pinNumber) {
@@ -43,6 +44,25 @@ class LedController {
 		});
 
 		return this.ldrSensor; // Return the LDR Sensor instance
+	}
+
+	async initializeOLED() {
+		if (!this.isBoardReady) {
+			await new Promise((resolve) => {
+				this.board.on("ready", () => {
+					this.isBoardReady = true;
+					resolve();
+				});
+			});
+		}
+
+		const opts = {
+			width: 128,
+			height: 64,
+			address: 0x3C, // Replace with your OLED address
+		};
+
+		this.oled = new Oled(this.board, five, opts);
 	}
 
 	turnOn(pinNumber) {
@@ -83,33 +103,6 @@ class LedController {
 			});
 		});
 	}
-}
-
-class OledController {
-	constructor() {
-		this.board = new Board(); // Reuse the same board instance
-		this.isBoardReady = false;
-		this.oled = null;
-	}
-
-	async initialize() {
-		if (!this.isBoardReady) {
-			await new Promise((resolve) => {
-				this.board.on("ready", () => {
-					this.isBoardReady = true;
-					resolve();
-				});
-			});
-		}
-
-		const opts = {
-			width: 128,
-			height: 64,
-			address: 0x3C, // Replace with your OLED address
-		};
-
-		this.oled = new Oled(this.board, five, opts);
-	}
 
 	async turnOnDisplay() {
 		if (!this.oled) {
@@ -138,9 +131,8 @@ class OledController {
 			await this.initialize();
 		}
 		this.oled.setCursor(x, y);
-		// this.oled.writeString(font, string, );
 		this.oled.writeString(font, 2, string, 1, true, 4);
 	}
 }
 
-module.exports = { LedController, OledController };
+module.exports = { LedController };

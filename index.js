@@ -12,6 +12,7 @@ const ledController = new LedController()
 ledController.initializeLed(3).then(() => console.log("Led 1 intialized"))
 ledController.initializeLed(5).then(() => console.log("Led 2 intialized"))
 ledController.initializeLDR("A0").then(() => console.log("LDR initialized"))
+ledController.initializeOLED().then(() => console.log("OLED initialized"))
 
 
 servient.start().then(async (WoT) => {
@@ -54,6 +55,13 @@ servient.start().then(async (WoT) => {
 						"type": "string"
 					}
 				}
+			},
+			"set_username": {
+				"uriVariables": {
+					"username": {
+						"type": "string"
+					}
+				}
 			}
 		}
 	}
@@ -69,6 +77,11 @@ servient.start().then(async (WoT) => {
 	exposingThing.setActionHandler("led2_on", () => { ledController.turnOn(5); });
 	exposingThing.setActionHandler("led2_off", () => { ledController.turnOff(5); });
 	exposingThing.setActionHandler("led2_intensity", (_params, options) => { ledController.setIntensity(5, options.uriVariables.intensity); });
+	exposingThing.setActionHandler("set_username", (_params, options) => {
+		ledController.turnOnDisplay();
+		ledController.clearDisplay();
+		ledController.drawString(1, 1, options.uriVariables.username);
+	});
 
 	await exposingThing.expose();
 });
