@@ -62,6 +62,9 @@ servient.start().then(async (WoT) => {
 						"type": "string"
 					}
 				}
+			},
+			"oled_off": {
+				description: "turn off oled display"
 			}
 		}
 	}
@@ -81,6 +84,10 @@ servient.start().then(async (WoT) => {
 		ledController.turnOnDisplay();
 		ledController.clearDisplay();
 		ledController.drawString(1, 1, options.uriVariables.username);
+	});
+	exposingThing.setActionHandler("oled_off", () => {
+		ledController.clearDisplay();
+		ledController.turnOffDisplay();
 	});
 
 	await exposingThing.expose();
