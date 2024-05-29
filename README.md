@@ -1,0 +1,1 @@
+ The Web of Things (WoT) API acts as an intermediary between the web interface and the physical IoT devices. It receives commands from the web interface and then communicates with the Raspberry Pi to execute these commands.
